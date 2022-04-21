@@ -1,0 +1,8 @@
+{
+  "ConnectionString": "URL",
+  "SASToken": "URL",
+  "BlobServiceSASURL": "URL",
+  "FileServiceSASURL": "URL",
+  "QueueServiceSASURL": "URL",
+  "TableServiceSASURL": "URL",
+}
