@@ -1,42 +1,35 @@
 package main
 
-import (
-	"mini-contents-hub/azure"
-)
+import "mini-contents-hub/aws"
 
 func main() {
 
-	//clientAWS := aws.GetClient() //AWS client uses ~/.aws/config file. maybe managed same config file
-	//
-	//buckets := aws.GetBuckets(clientAWS) // Get bucket list as a slice type
-	//
-	//for _, bucket := range buckets {
-	//	println(bucket)                                            // print bucket line by line
-	//	for _, object := range aws.GetObjects(clientAWS, bucket) { //read object from bucket
-	//		println(object) //print object line by line
-	//	}
-	//}
-	//aws.CreateBucket(clientAWS, "codetest88839", "ap-northeast-2")
-	//aws.UploadObject(clientAWS, "codetest88839", "stringbinary.txt", []byte("Hello Binary!"))
-	clientAZURE := azure.GetClient("./configs/config.json") //TODO : replace hard coded path to execution parameter
+	clientAWS := aws.GetClient() //AWS client uses ~/.aws/config file. maybe managed same config file
 
-	//azure.CreateContainer(clientAZURE, "yiya")
-	//azure.UploadBlob(clientAZURE, "yiya", "testdata.txt", []byte("Hello DATA Replaced!"))
-	//
-	//data := azure.DownloadBlob(clientAZURE, "yiya", "testdata.txt")
-	//println(string(data))
+	buckets := aws.GetBuckets(clientAWS) // Get bucket list as a slice type
 
-	//azure.DeleteBlob(clientAZURE, "yiya", "testdata.txt")
-	//azure.DeleteContainer(clientAZURE, "container-name")
+	for _, bucket := range buckets {
+		println(bucket) // print bucket line by line
 
-	containers := azure.GetContainers(clientAZURE)
-
-	for _, container := range containers {
-		println(container) // print container line by line
 	}
-	//	blobs := azure.GetBlobs(clientAZURE, "blob-test")
+	objects := aws.GetObjects(clientAWS, "unique-bucket-name")
+	for _, object := range objects { //read object from bucket
+		println(object) //print object line by line
+	}
+
+	aws.CreateBucket(clientAWS, "unique-bucket-name", "ap-northeast-2")
+	aws.UploadObject(clientAWS, "unique-bucket-name", "file-name.txt", []byte("Hello Binary!"))
+	//clientAZURE := azure.GetClient("./configs/config.json") //TODO : replace hard coded path to execution parameter
+	//
+	//containers := azure.GetContainers(clientAZURE)
+	//
+	//for _, container := range containers {
+	//	println(container) // print container line by line
+	//	blobs := azure.GetBlobs(clientAZURE, container)
 	//
 	//	for _, blob := range blobs {
 	//		println(blob) // print blob line by line
 	//	}
+	//}
+
 }
