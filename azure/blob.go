@@ -38,3 +38,32 @@ func DownloadBlob(client *Client, containerName string, blobName string) (downlo
 	return downloadedData
 
 }
+
+func DeleteBlob(client *Client, containerName string, blobName string) {
+	containerURL := client.ServiceURL.NewContainerURL(containerName)
+	blobURL := containerURL.NewBlockBlobURL(blobName)
+
+	_, err := blobURL.Delete(client.Context, azblob.DeleteSnapshotsOptionNone, azblob.BlobAccessConditions{})
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func GetBlobs(client *Client, containerName string) (blobs []string) {
+	containerURL := client.ServiceURL.NewContainerURL(containerName)
+	for marker := (azblob.Marker{}); marker.NotDone(); { // The parens around Marker{} are required to avoid compiler error.
+		// Get a result segment starting with the blob indicated by the current Marker.
+		listBlob, err := containerURL.ListBlobsFlatSegment(client.Context, marker, azblob.ListBlobsSegmentOptions{})
+		if err != nil {
+			log.Fatal(err)
+		}
+		marker = listBlob.NextMarker
+
+		// Process the blobs returned in this result segment (if the segment is empty, the loop body won't execute)
+		for _, blobInfo := range listBlob.Segment.BlobItems {
+			blobs = append(blobs, blobInfo.Name)
+		}
+	}
+
+	return blobs
+}

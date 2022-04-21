@@ -51,7 +51,6 @@ type Client struct {
 
 func newClient(path string) *Client {
 	client := Client{}
-
 	client.Credential = azblob.NewAnonymousCredential()
 	client.PipeLine = azblob.NewPipeline(client.Credential, azblob.PipelineOptions{})
 	client.Context = context.Background()

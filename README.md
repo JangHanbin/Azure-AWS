@@ -4,38 +4,6 @@
 
 
 
-
-<div id="top"></div>
-
-
-
-
-## Azure - AWS S3 
-
-
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-### Built With
-
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-
-* [Next.js](https://nextjs.org/)
-* [React.js](https://reactjs.org/)
-* [Vue.js](https://vuejs.org/)
-* [Angular](https://angular.io/)
-* [Svelte](https://svelte.dev/)
-* [Laravel](https://laravel.com)
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-
 ## Getting Started
 
 Azure와 AWS S3에 접근하기 위한 인증 정보 준비
@@ -100,10 +68,44 @@ clientAZURE := azure.GetClient("./configs/config.json") //Azure의 SAS Token을 
 
 
 
+##### 컨테이너 탐색
+
+```go
+containers := azure.GetContainers(clientAZURE)
+
+for _, container := range containers {
+		println(container) // print container line by line
+}
+```
+
+
+
 ##### 컨테이너 생성
 
 ```go
 azure.CreateContainer(clientAZURE, "container-name")
+```
+
+
+
+##### 컨테이너 삭제
+
+```go
+azure.DeleteContainer(clientAZURE, "container-name")
+```
+
+
+
+
+
+##### Blob 탐색
+
+```go
+blobs := azure.GetBlobs(clientAZURE, "container-name")
+
+for _, blob := range blobs {
+		println(blob) // print blob line by line
+}
 ```
 
 
@@ -125,6 +127,16 @@ println(string(data))
 //실행결과
 //Hello DATA Replaced!
 ```
+
+
+
+##### Blob 삭제
+
+```go
+azure.DeleteBlob(clientAZURE, "container-name", "file-name.txt")
+```
+
+
 
 
 

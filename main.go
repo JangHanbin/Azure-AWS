@@ -20,11 +20,23 @@ func main() {
 	//aws.UploadObject(clientAWS, "codetest88839", "stringbinary.txt", []byte("Hello Binary!"))
 	clientAZURE := azure.GetClient("./configs/config.json") //TODO : replace hard coded path to execution parameter
 
-	//
 	//azure.CreateContainer(clientAZURE, "yiya")
 	//azure.UploadBlob(clientAZURE, "yiya", "testdata.txt", []byte("Hello DATA Replaced!"))
+	//
+	//data := azure.DownloadBlob(clientAZURE, "yiya", "testdata.txt")
+	//println(string(data))
 
-	data := azure.DownloadBlob(clientAZURE, "yiya", "testdata.txt")
-	println(string(data))
+	//azure.DeleteBlob(clientAZURE, "yiya", "testdata.txt")
+	//azure.DeleteContainer(clientAZURE, "container-name")
 
+	containers := azure.GetContainers(clientAZURE)
+
+	for _, container := range containers {
+		println(container) // print container line by line
+	}
+	//	blobs := azure.GetBlobs(clientAZURE, "blob-test")
+	//
+	//	for _, blob := range blobs {
+	//		println(blob) // print blob line by line
+	//	}
 }
