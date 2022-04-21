@@ -16,3 +16,7 @@ func CreateContainer(client *Client, containerName string) {
 
 	}
 }
+
+func GetContainers(client *Client) {
+
+}

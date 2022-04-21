@@ -8,7 +8,8 @@ import (
 )
 
 func CreateBucket(client *s3.Client, bucketName string, region types.BucketLocationConstraint) {
-	// 버킷 생성하기
+
+	// create bucket
 	output, err := client.CreateBucket(context.TODO(), &s3.CreateBucketInput{
 		Bucket: &bucketName,
 		CreateBucketConfiguration: &types.CreateBucketConfiguration{

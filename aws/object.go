@@ -8,7 +8,6 @@ import (
 	v4 "github.com/aws/aws-sdk-go-v2/aws/signer/v4"
 	"github.com/aws/aws-sdk-go-v2/feature/s3/manager"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -63,14 +62,14 @@ func DownloadObject(client *s3.Client, bucketName string, path string, key strin
 	return err
 
 }
-func UploadObject(client *s3.Client, bucketName string, fileName string) *manager.UploadOutput {
+func UploadObject(client *s3.Client, bucketName string, fileName string, data []byte) *manager.UploadOutput {
 
-	file, err := ioutil.ReadFile(fileName)
+	//file, err := ioutil.ReadFile(fileName)
 	uploader := manager.NewUploader(client)
 	result, err := uploader.Upload(context.TODO(), &s3.PutObjectInput{
 		Bucket: aws.String(bucketName),
 		Key:    aws.String(fileName),
-		Body:   bytes.NewReader(file),
+		Body:   bytes.NewReader(data),
 	})
 	if err != nil {
 		log.Fatal(err)
