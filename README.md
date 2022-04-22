@@ -266,7 +266,12 @@ aws.UploadObject(clientAWS, "unique-bucket-name", "file-name.txt", []byte("Hello
 ##### Object 다운로드
 
 ```go
-TODO
+data := aws.DownloadObject(clientAWS, "unique-bucket-name", "file-name.txt")
+
+println(string(data))
+
+//실행결과
+//Hello Binary!
 ```
 
 
