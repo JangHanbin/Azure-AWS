@@ -48,6 +48,7 @@ func DownloadObject(client *s3.Client, bucketName string, objectName string) []b
 	return data.Bytes()
 
 }
+
 func UploadObject(client *s3.Client, bucketName string, fileName string, data []byte) *manager.UploadOutput {
 
 	//file, err := ioutil.ReadFile(fileName)
@@ -66,19 +67,32 @@ func UploadObject(client *s3.Client, bucketName string, fileName string, data []
 
 }
 
-func GetPresignedURL(c context.Context, api S3PresignGetObjectAPI, input *s3.GetObjectInput) (*v4.PresignedHTTPRequest, error) {
+func DeleteObject(client *s3.Client, bucketName string, objectName string) {
+
+	_, err := client.DeleteObject(context.TODO(), &s3.DeleteObjectInput{
+		Bucket: &bucketName,
+		Key:    &objectName,
+	})
+
+	if err != nil {
+		panic(err)
+	}
+
+}
+
+func getPresignedURL(c context.Context, api S3PresignGetObjectAPI, input *s3.GetObjectInput) (*v4.PresignedHTTPRequest, error) {
 	return api.PresignGetObject(c, input)
 }
 
-func GetPublicURL(client *s3.Client, bucketName *string, key *string) (publicURL string) {
+func GetPublicURL(client *s3.Client, bucketName string, key string) (publicURL string) {
 	input := &s3.GetObjectInput{
-		Bucket: bucketName,
-		Key:    key,
+		Bucket: &bucketName,
+		Key:    &key,
 	}
 
 	psClient := s3.NewPresignClient(client)
 
-	resp, err := GetPresignedURL(context.TODO(), psClient, input)
+	resp, err := getPresignedURL(context.TODO(), psClient, input)
 	if err != nil {
 		fmt.Println("Got an error retrieving pre-signed object:")
 		fmt.Println(err)

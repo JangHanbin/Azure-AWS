@@ -237,7 +237,7 @@ const (
 ##### Bucket 삭제
 
 ```go
-TODO
+aws.DeleteBucket(clientAWS, "unique-bucket-name")
 ```
 
 
@@ -279,8 +279,14 @@ println(string(data))
 ##### Object 삭제
 
 ```go
-TODO
+aws.DeleteObject(clientAWS, "unique-bucket-name", "file-name.txt")
 ```
 
 
+
+##### Public URL 얻기
+
+```go
+publicURL = aws.GetPublicURL(clientAWS, "unique-bucket-name", "file-name.txt")
+```
 

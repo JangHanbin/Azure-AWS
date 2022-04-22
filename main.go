@@ -19,7 +19,11 @@ func main() {
 
 	//aws.CreateBucket(clientAWS, "unique-bucket-name", "ap-northeast-2")
 	//aws.UploadObject(clientAWS, "unique-bucket-name", "file-name.txt", []byte("Hello Binary!"))
-	data := aws.DownloadObject(clientAWS, "mywavvebucket", "drm.js")
+	//data := aws.DownloadObject(clientAWS, "mywavvebucket", "drm.js")
+
+	//println(aws.GetPublicURL(clientAWS, "mywavvebucket", "drm.js")
+	//aws.DeleteBucket(clientAWS, "testbucket4881235")
+	//aws.DeleteObject(clientAWS, "mywavvebucket", "drm.js")
 
 	//clientAZURE := azure.GetClient("./configs/config.json") //TODO : replace hard coded path to execution parameter
 	//

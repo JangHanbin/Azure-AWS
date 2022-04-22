@@ -2,12 +2,11 @@ package aws
 
 import (
 	"context"
-	"fmt"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/aws/aws-sdk-go-v2/service/s3/types"
 )
 
-func CreateBucket(client *s3.Client, bucketName string, region types.BucketLocationConstraint) {
+func CreateBucket(client *s3.Client, bucketName string, region types.BucketLocationConstraint) *string {
 
 	// create bucket
 	output, err := client.CreateBucket(context.TODO(), &s3.CreateBucketInput{
@@ -20,7 +19,21 @@ func CreateBucket(client *s3.Client, bucketName string, region types.BucketLocat
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(output.Location)
+
+	return output.Location
+}
+
+func DeleteBucket(client *s3.Client, bucketName string) {
+
+	// delete bucket
+	_, err := client.DeleteBucket(context.TODO(), &s3.DeleteBucketInput{
+		Bucket: &bucketName,
+	})
+
+	if err != nil {
+		panic(err)
+	}
+
 }
 
 func GetBuckets(client *s3.Client) (buckets []string) {
