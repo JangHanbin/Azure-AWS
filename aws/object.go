@@ -9,9 +9,6 @@ import (
 	"github.com/aws/aws-sdk-go-v2/feature/s3/manager"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"log"
-	"os"
-	"path/filepath"
-	"strings"
 )
 
 type S3PresignGetObjectAPI interface {
@@ -37,29 +34,18 @@ func GetObjects(client *s3.Client, bucketName string) (objects []string) {
 	return objects
 }
 
-func DownloadObject(client *s3.Client, bucketName string, path string, key string) error {
-	// Create the directories in the path
-	splitKeyArr := strings.Split(key, "/")
-	file := filepath.Join(path, splitKeyArr[len(splitKeyArr)-1])
-	if err := os.MkdirAll(filepath.Dir(file), 0775); err != nil {
-		return err
-	}
-
-	// Set up the local file
-	fd, err := os.Create(file)
-	if err != nil {
-		return err
-	}
-
-	defer fd.Close()
-
+func DownloadObject(client *s3.Client, bucketName string, objectName string) []byte {
+	data := manager.WriteAtBuffer{}
 	downloader := manager.NewDownloader(client)
-	_, err = downloader.Download(context.TODO(), fd,
+	_, err := downloader.Download(context.TODO(), &data,
 		&s3.GetObjectInput{
 			Bucket: &bucketName,
-			Key:    &key,
+			Key:    &objectName,
 		})
-	return err
+	if err != nil {
+		panic(err)
+	}
+	return data.Bytes()
 
 }
 func UploadObject(client *s3.Client, bucketName string, fileName string, data []byte) *manager.UploadOutput {
