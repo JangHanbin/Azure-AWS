@@ -42,7 +42,6 @@ func DownloadBlob(client *Client, containerName string, blobName string) (downlo
 func DeleteBlob(client *Client, containerName string, blobName string) {
 	containerURL := client.ServiceURL.NewContainerURL(containerName)
 	blobURL := containerURL.NewBlockBlobURL(blobName)
-
 	_, err := blobURL.Delete(client.Context, azblob.DeleteSnapshotsOptionNone, azblob.BlobAccessConditions{})
 	if err != nil {
 		log.Fatal(err)
@@ -58,7 +57,6 @@ func GetBlobs(client *Client, containerName string) (blobs []string) {
 			log.Fatal(err)
 		}
 		marker = listBlob.NextMarker
-
 		// Process the blobs returned in this result segment (if the segment is empty, the loop body won't execute)
 		for _, blobInfo := range listBlob.Segment.BlobItems {
 			blobs = append(blobs, blobInfo.Name)
